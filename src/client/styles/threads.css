@@ -1,0 +1,144 @@
+/* A thread: its messages, the composer, attachments, a new thread docked beside its subject, syntheses, drafts. */
+
+.chat, .doc { display: flex; flex-direction: column; height: 100%; min-height: 0; }
+.chat-head, .doc-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 16px; padding: 10px 24px; min-height: 54px; border-bottom: 1px solid var(--sel); }
+/* The title keeps a readable width; actions that don't fit beside it go under it, never out of the window. */
+.chat-head > :first-child, .doc-head > :first-child { flex: 1 1 300px; min-width: 0; }
+.chat-head h1 { margin: 1px 0 0; color: var(--hi); font-size: 14px; font-weight: 600; line-height: 1.35; }
+.thread-title .rename { margin-left: 6px; font-size: 12px; font-weight: 400; color: var(--faint); }
+.thread-title .rename:hover, .thread-title .rename:focus-visible { color: var(--accent); }
+.rename-form { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 1px; }
+.rename-form input { flex: 1 1 280px; min-width: 0; padding: 2px 0; background: none; border: 0; border-bottom: 1px solid var(--accent); outline: none; color: var(--hi); font: inherit; font-size: 14px; font-weight: 600; }
+.kind { font-size: 12px; color: var(--faint); }
+.kind.question { color: var(--accent); }
+
+.messages { flex: 1; min-height: 0; overflow-y: auto; padding: 16px max(24px, calc((100% - 860px) / 2)); }
+.message { display: flex; gap: 12px; margin-bottom: 2px; padding: 12px 14px; border-left: var(--marker) solid transparent; animation: appear 0.15s ease-out; }
+.message.from-agent { background: var(--agent-bg); border-left-color: var(--sel); }
+.message.live { border-left-color: var(--accent); }
+.message-body { flex: 1; min-width: 0; }
+.message-body > header { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 2px; }
+.message-body > header strong { font-weight: 600; }
+.message-body time { color: var(--faint); font-size: 12px; }
+.tag { color: var(--faint); font-size: 12px; }
+.tag::before { content: '· '; }
+.status-line { margin: 10px 0; text-align: center; color: var(--faint); font-size: 12px; }
+.doing { color: var(--muted); font-size: 12px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 460px; }
+.message.live .link { margin-left: auto; font-size: 12px; }
+.message-foot { display: flex; align-items: center; gap: 10px; margin-top: 6px; font-size: 12px; color: var(--faint); }
+.message-foot .inline-error { margin: 0; padding: 0 0 0 8px; }
+@keyframes appear { from { opacity: 0; } to { opacity: 1; } }
+
+.sources { margin-top: 6px; font-size: 12px; color: var(--muted); }
+.sources summary { cursor: pointer; width: fit-content; }
+.sources ul { margin: 6px 0 0; padding-left: 18px; }
+.sources a { color: var(--accent); overflow-wrap: anywhere; }
+
+.composer { padding: 10px max(24px, calc((100% - 860px) / 2)) 12px; border-top: 1px solid var(--sel); }
+.composer textarea { display: block; width: 100%; min-height: 52px; max-height: 260px; padding: 8px 10px; resize: none; background: var(--bg-dark); border: 1px solid var(--sel); outline: none; color: var(--hi); line-height: 1.6; }
+.composer textarea:focus { border-color: var(--accent); }
+.composer textarea::placeholder { color: var(--faint); }
+.composer { position: relative; }
+.mention-suggest { position: absolute; left: max(24px, calc((100% - 860px) / 2)); bottom: calc(100% - 10px); z-index: 5; margin: 0; padding: 4px 0; list-style: none; min-width: 240px; max-width: min(420px, calc(100% - 48px)); background: var(--bg); border: 1px solid var(--accent); }
+.mention-suggest button { display: flex; align-items: center; gap: 8px; width: 100%; padding: 4px 10px; text-align: left; color: var(--fg); }
+.mention-suggest button.on, .mention-suggest button:hover { background: var(--sel); color: var(--hi); }
+.mention-suggest small { color: var(--faint); }
+.mention-box .mention-suggest { left: 0; bottom: 100%; }
+.composer-row { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; margin-top: 8px; }
+.composer-row .send { margin-left: auto; }
+
+.attachments { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 8px; margin-top: 8px; }
+.thumb { display: block; padding: 0; overflow: hidden; border: 1px solid var(--sel); }
+.thumb:hover { border-color: var(--accent); }
+.thumb img { display: block; max-width: 260px; max-height: 180px; }
+.file { display: inline-flex; align-items: center; gap: 7px; max-width: 340px; min-height: 30px; padding: 3px 10px; border: 1px solid var(--sel); font-size: 12.5px; }
+.file:hover { color: var(--hi); border-color: var(--accent); }
+.file span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.file small { flex: none; color: var(--faint); font-size: 12px; }
+.lightbox { place-items: center; padding: 24px; cursor: zoom-out; }
+.lightbox img { max-width: 100%; max-height: 100%; }
+
+.composer.dropping textarea { border-color: var(--accent); background: var(--sel); }
+.pending-files { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0 0 8px; padding: 0; }
+.pending-files li { display: inline-flex; align-items: center; gap: 6px; max-width: 320px; padding: 1px 2px 1px 8px; background: var(--sel); font-size: 12px; }
+.pending-files span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pending-files small { flex: none; color: var(--faint); font-size: 12px; }
+.pending-files button { width: 22px; height: 22px; color: var(--muted); }
+.pending-files button:hover { color: var(--danger); }
+.tool { display: inline-flex; align-items: center; gap: 5px; min-height: 24px; padding: 1px 6px; color: var(--muted); font-size: 12px; }
+.tool:hover:not(:disabled), .tool.on { background: var(--sel); color: var(--hi); }
+.tool:disabled { opacity: 0.4; cursor: default; }
+.divider { width: 1px; height: 14px; background: var(--sel); }
+.doc-picker { margin-bottom: 8px; background: var(--bg-dark); border: 1px solid var(--accent); overflow: hidden; }
+.doc-picker input { display: block; width: 100% !important; margin: 0 !important; padding: 6px 10px; background: none; border: 0 !important; border-bottom: 1px solid var(--sel) !important; font-weight: 400 !important; outline: none; color: var(--hi); }
+.doc-picker ul { list-style: none; margin: 0; padding: 4px 0; max-height: 190px; overflow-y: auto; }
+.doc-picker li button { display: block; width: 100%; padding: 2px 10px; text-align: left; font-size: 12.5px; color: var(--muted); white-space: normal; }
+.doc-picker li button:hover { background: var(--sel); color: var(--hi); }
+
+/* A new thread on something stays beside it. */
+.app.docked { grid-template-columns: 310px minmax(0, 1fr) minmax(320px, 32%); }
+@media (max-width: 1180px) { .app.docked { grid-template-columns: minmax(0, 1fr) minmax(320px, 420px); } .app.docked > aside { display: none; } }
+.dock-place { display: contents; }
+@media (max-width: 760px) { .app.docked { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); } }
+.dialog.dock { width: auto; min-height: 0; display: flex; flex-direction: column; overflow-y: auto; border: 0; border-left: 1px solid var(--accent); }
+.dock-subject { display: flex; flex-direction: column; gap: 4px; margin: 0 16px 10px; padding: 8px 10px; background: var(--bg-dark); border-left: var(--marker) solid var(--accent); color: var(--muted); font-size: 12.5px; }
+.dock-subject > div { display: flex; gap: 10px; }
+.dock-subject a, .thread-subject a { color: var(--accent); }
+.dialog input[type="file"] { display: none; }
+.dock-subject strong { color: var(--hi); font-weight: 600; }
+.dock-subject p { margin: 0; max-height: 8em; overflow-y: auto; overflow-wrap: anywhere; }
+.dialog.dock .composer { margin-top: auto; }
+.thread-subject { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; margin-top: 2px; color: var(--muted); font-size: 12px; }
+.thread-subject small { max-width: 100%; overflow: hidden; color: var(--faint); font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+.linked-threads { display: inline-flex; flex-wrap: wrap; gap: 2px 12px; color: var(--muted); font-size: 12px; }
+.linked-threads a { max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ── synthèse ────── */
+.chat-actions { display: flex; flex: 0 1 auto; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 4px 14px; min-width: 0; }
+.chat-actions .check { white-space: nowrap; }
+.syn { margin: 14px 0; padding: 12px 14px; border: 1px solid var(--rule); background: var(--bg-dark); }
+.syn-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; }
+.syn-head strong { color: var(--accent); }
+.syn-head small { color: var(--faint); font-size: 12px; }
+.syn h3 { margin: 16px 0 6px; }
+.syn-yes { color: var(--green); }
+.syn-no { color: var(--danger); }
+.syn-open { padding: 4px; }
+.syn-open span { color: var(--amber); }
+.syn-note, .syn-why { color: var(--muted); }
+.syn-note { margin: 6px 4px 0; font-size: 12px; }
+.syn-lane { display: grid; grid-template-columns: 90px minmax(0, 1fr); gap: 12px; padding: 6px 4px; border-top: 1px solid var(--sel); }
+.syn-lane-name { color: var(--muted); }
+.syn-items { display: flex; flex-direction: column; gap: 6px; }
+.syn-item { padding: 5px 8px; border-left: var(--marker) solid var(--rule); background: var(--bg); }
+.syn-item[open] { border-left-color: var(--accent); }
+.syn-item summary { cursor: pointer; color: var(--hi); }
+.syn-item summary small { display: block; color: var(--faint); font-size: 12px; }
+.syn-item p { margin: 6px 0; }
+.syn-item ul { margin: 6px 0; padding-left: 18px; }
+.syn-item > small { color: var(--faint); font-size: 12px; }
+.syn-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 12px; color: var(--muted); font-size: 12px; }
+
+/* Where a thread picks up. */
+.new-divider { display: flex; align-items: center; gap: 10px; margin: 6px 0 12px; color: var(--amber); font-size: 12px; scroll-margin-top: 12px; }
+.new-divider::after { content: ''; flex: 1; border-top: 1px solid var(--amber); }
+
+.mention-box { position: relative; display: block; }
+.mention-box textarea { display: block; width: 100%; box-sizing: border-box; }
+
+/* Asking many people: one chip that opens a search. */
+
+/* What a member's agent prepared or did. */
+.draft-card { margin: 12px 0; padding: 10px 12px; border: 1px dashed var(--accent); background: var(--agent-bg); }
+.draft-card header { display: flex; flex-direction: column; gap: 2px; margin-bottom: 8px; }
+.draft-card header strong { color: var(--hi); }
+.draft-card header small { color: var(--faint); }
+.draft-card textarea { display: block; width: 100%; padding: 8px; border: 1px solid var(--rule); background: var(--bg-dark); color: var(--fg); resize: vertical; }
+.draft-card .row { display: flex; gap: 10px; align-items: center; margin-top: 8px; }
+.draft-actions { margin-top: 6px; }
+.agent-actions { margin: 6px 0 0; padding: 0; list-style: none; font-size: 12.5px; }
+.agent-actions small { color: var(--faint); }
+.waiting-on { display: flex; flex-direction: column; gap: 2px; }
+
+/* A synthesis's decisions: a list drawn as the card's rows, not the browser's bullets. */
+.syn-decisions { list-style: none; margin: 0; padding: 0; }

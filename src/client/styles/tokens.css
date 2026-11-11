@@ -1,0 +1,68 @@
+/*
+ * Dark only. The look comes from speak (rodolphebarbanneau/speak, src/renderer/src/styles.css, MIT):
+ * JetBrains Mono, flat surfaces, no shadows, square corners, a marker bar on
+ * what is active, `[ action ]` and `── section ──────`. Colours are these roles, nothing else.
+ * These are the default theme's colours. Omarchy's, at the end of this file, give these roles other values.
+ */
+
+:root {
+  color-scheme: dark;
+  /* The default theme: what `derive` gives for its three colours in themes.ts, written here for the first drawing. */
+  --bg: #000005;
+  --bg-dark: #000004;
+  --raised: #141418;
+  --sel: #202024;
+  --hover: rgb(32 32 36 / 0.55);
+  --scrim: rgb(0 0 4 / 0.7);
+  --rule: #454548;
+  --hi: #f5f5f5;
+  --fg: #d8d8d8;
+  --muted: #b0b0b2;
+  --faint: #939395;
+  --accent: #00ffbf;
+  --accent-fg: #000005;
+  --blue: #00ffbf;
+  --agent-bg: #000004;
+  --green: #9ece6a;
+  --amber: #e0af68;
+  --danger: #f7768e;
+  --chart-1: #23a68c;
+  --chart-2: #6188e6;
+  --chart-3: #d67834;
+  --chart-4: #3a9fd0;
+  --chart-5: #dd5a7c;
+  --chart-6: #a874e0;
+  --marker: 3px;
+  --edge: 16px;
+  --font: 'JetBrains Mono Variable', 'JetBrains Mono', 'Cascadia Mono', Consolas, ui-monospace, monospace;
+  --titlebar-h: env(titlebar-area-height, 32px);
+}
+
+/* Omarchy: a Tokyo Night palette, tuned by hand. Only roles change here, so nothing else in the stylesheet knows about it. */
+html[data-theme='omarchy'] {
+  --bg: #1a1b26;
+  --bg-dark: #16161e;
+  --raised: #24283b;
+  --sel: #292e42;
+  --hover: rgb(41 46 66 / 0.55);
+  --scrim: rgb(22 22 30 / 0.7);
+  --rule: #414868;
+  --hi: #c0caf5;
+  --fg: #a9b1d6;
+  --muted: #8e97c2;
+  --faint: #8b94bd;
+  --accent: #7aa2f7;
+  --accent-fg: #1a1b26;
+  --blue: #7aa2f7;
+  /* The same as REPORT_THEME.omarchy, which passes dataviz's validator on this surface. */
+  --chart-1: #6188e6;
+  --chart-2: #d67834;
+  --chart-3: #23a68c;
+  --chart-4: #a874e0;
+  --chart-5: #dd5a7c;
+  --chart-6: #3a9fd0;
+  --green: #9ece6a;
+  --amber: #e0af68;
+  --danger: #f7768e;
+  --agent-bg: #16161e;
+}

@@ -1,0 +1,37 @@
+/* Voice: the listening bar, the panel in a thread, the shared summary, the microphone and the engine. */
+
+.listening-bar { display: flex; align-items: center; gap: 8px; color: var(--danger); font-size: 12.5px; -webkit-app-region: no-drag; }
+.listening-bar a { color: inherit; font-weight: 600; }
+.listening-bar span:not(.listening-dot) { color: var(--muted); }
+.listening-bar.paused, .listening-bar.paused a { color: var(--amber); }
+.voice-waiting { margin-left: 8px; color: var(--amber); font-size: 12.5px; -webkit-app-region: no-drag; }
+.listening-bar .voice-silent { color: var(--amber); }
+.listening-dot { flex: none; width: 8px; height: 8px; background: var(--danger); }
+.listening-dot.paused, .listening-bar.paused .listening-dot { background: var(--amber); }
+.listening-dot.finishing { background: var(--muted); }
+/* Between the messages and the text box, on the same column as both. */
+.voice-panel { margin: 0 max(24px, calc((100% - 860px) / 2)) 8px; padding: 8px 12px; border-left: var(--marker) solid var(--danger); background: var(--bg-dark); }
+
+.voice-shared { margin: 0 max(24px, calc((100% - 860px) / 2)) 8px; padding: 8px 12px; border-left: var(--marker) solid var(--accent); background: var(--bg-dark); color: var(--muted); font-size: 12.5px; }
+.voice-turns { max-height: 260px; font-size: 13px; }
+.voice-speaker { color: var(--hi); font-weight: 600; }
+.voice-note { margin: 2px 0; color: var(--muted); font-size: 12.5px; }
+/* A panel that only says why it can't listen keeps the panel's place on the column. */
+.voice-panel.voice-note { margin: 0 max(24px, calc((100% - 860px) / 2)) 8px; }
+.voice-state { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; }
+.voice-state strong { color: var(--hi); font-weight: 600; }
+.voice-state .spacer { flex: 1; }
+.voice-device { overflow: hidden; max-width: 34ch; white-space: nowrap; text-overflow: ellipsis; }
+.voice-meter { position: relative; width: 80px; height: 6px; background: var(--sel); }
+.voice-meter::after { content: ''; position: absolute; inset: 0 auto 0 0; width: calc(var(--level) * 100%); background: var(--accent); }
+.voice-lines { overflow-y: auto; max-height: 180px; margin-top: 6px; color: var(--fg); }
+.voice-lines p { margin: 2px 0; overflow-wrap: anywhere; }
+.voice-lines time { color: var(--faint); font-size: 12px; }
+.voice-review textarea { display: block; box-sizing: border-box; width: 100%; margin: 6px 0; padding: 6px 8px; background: var(--bg); border: 1px solid var(--rule); outline: none; color: var(--hi); resize: vertical; }
+.voice-review textarea:focus { border-color: var(--accent); }
+.voice-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin-top: 6px; }
+.voice-mic { display: flex; align-items: baseline; gap: 8px; color: var(--muted); font-size: 12.5px; }
+
+.voice-mic select { max-width: 42ch; background: var(--bg); border: 1px solid var(--rule); color: var(--hi); font: inherit; }
+.folder-intro { margin: 2px 10px 6px; color: var(--muted); font-size: 12.5px; }
+.folder-actions { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 4px; }

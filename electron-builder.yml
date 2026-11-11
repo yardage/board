@@ -1,0 +1,23 @@
+appId: app.board.desktop
+productName: Board
+directories:
+  buildResources: build
+  output: release
+files:
+  - out/**
+  - dist/**
+  - build/icon.png
+  - package.json
+  - '!**/*.map'
+npmRebuild: false
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+  icon: build/icon.png
+nsis:
+  oneClick: true
+  perMachine: false
+  shortcutName: Board
+  artifactName: Board-Setup-${version}.${ext}
+publish: null

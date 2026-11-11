@@ -1,0 +1,22 @@
+/* Setup: what comes before an environment. */
+.setup { overflow: auto; max-width: 760px; margin: 0 auto; padding: 8vh 24px 40px; }
+.setup h1 { margin: 0 0 18px; color: var(--hi); font-size: 20px; font-weight: 600; }
+.setup-step { margin: 0 0 20px; padding: 12px 14px; border: 1px solid var(--rule); background: var(--bg-dark); }
+.setup-step.done { padding: 6px 14px; border-color: var(--sel); background: none; }
+.setup-step h2 { margin: 0 0 8px; color: var(--hi); font-size: 14px; font-weight: 600; }
+.setup-step.done h2 { margin: 0; color: var(--muted); }
+.setup-step.done h2 span { color: var(--green); }
+.setup-step h3 { margin: 16px 0 6px; color: var(--muted); font-size: 12px; font-weight: 600; }
+.setup-step p { margin: 6px 0; }
+.setup-step .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.setup-step input, .setup-step select { padding: 4px 8px; border: 1px solid var(--rule); background: var(--bg); color: var(--fg); }
+.setup-list { margin: 0; padding: 0; list-style: none; }
+.setup-list li { padding: 3px 0; }
+.setup-list .ok { color: var(--green); }
+.setup-list .missing { color: var(--amber); }
+.setup-envs { margin: 0; padding: 0; list-style: none; }
+.setup-envs li { margin: 4px 0; }
+.setup-envs button { display: flex; gap: 10px; align-items: baseline; width: 100%; text-align: left; }
+.setup-envs small { color: var(--faint); }
+.device-code .code { display: inline-block; margin: 8px 0; padding: 6px 14px; border: 1px solid var(--accent); color: var(--hi); font-size: 22px; letter-spacing: 0.15em; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }

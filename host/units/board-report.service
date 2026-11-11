@@ -1,0 +1,51 @@
+[Unit]
+Description=Read this machine's CPU, memory and disk for a minute, and write it for the board
+Documentation=https://github.com/yardage/board/tree/main/host
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/libexec/board-report
+# BOARD_ENV and BOARD_HOST, written by install.sh.
+EnvironmentFile=/etc/board-report/environment
+# The token, readable by this run alone: systemd hands it over, and the file stays root's.
+LoadCredential=token:/etc/board-report/token
+# A user of its own, made for each run, that owns nothing but the history.
+DynamicUser=yes
+StateDirectory=board-report
+StateDirectoryMode=0700
+UMask=0077
+# It must never be what a heavy job runs short of.
+MemoryMax=32M
+CPUQuota=5%
+Nice=19
+IOSchedulingClass=idle
+TimeoutStartSec=3min
+# A run every minute: only its warnings and failures go to the journal.
+SyslogLevel=warning
+LogLevelMax=notice
+# It reads /proc and df, writes its history, and talks to GitHub. Nothing else.
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+PrivateUsers=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+ProtectProc=invisible
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+RemoveIPC=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+SystemCallArchitectures=native
+SystemCallFilter=@system-service

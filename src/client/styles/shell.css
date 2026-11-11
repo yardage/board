@@ -1,0 +1,160 @@
+/* The window: drag regions, the sidebar and its menus, faces, the home screen, the frame of a page. */
+
+.frame { display: flex; flex-direction: column; height: 100%; }
+/* The window has no title bar: the sidebar's top is dragged by, and the system's buttons sit at the top right of the main pane. */
+:root { --controls: calc(100vw - env(titlebar-area-x, 0px) - env(titlebar-area-width, 100vw)); }
+.drag-strip { flex: none; height: var(--titlebar-h); -webkit-app-region: drag; }
+.brand, .chat-head, .doc-head, .wait-detail h2, .poll-detail > .wait-meta, .item-panel .item-head, .dialog.dock > header { -webkit-app-region: drag; }
+/*
+ * The band of the system's buttons drags the window on every screen, a header or not, as a title bar does. It comes
+ * before every screen (main.tsx), so that what each draws over it takes its own spots back, and lies under them all.
+ */
+.window-drag { position: fixed; inset: 0 0 auto; z-index: -1; height: var(--titlebar-h); -webkit-app-region: drag; }
+/*
+ * Windows gives every click and hover over a drag area to the window, and a drag area's children inherit it: a face
+ * shows no name, a menu that opens from a header has dead stripes. So whatever is clicked, hovered, focused or opened
+ * takes it back, wherever it is, for all it holds: a drag area drags by its text and its empty space only. Without
+ * weight (:where), so that a drag area with a title or a role of its own still drags.
+ */
+:where(button, a, input, select, textarea, label, summary, details, [title], [data-says], [tabindex], [role], .menu, .people, .chat-actions, .doc-actions) {
+  -webkit-app-region: no-drag;
+}
+/* What opens over the page closes on a click beside it, which a drag area under it would take. */
+.overlay, .palette-back, .set-ask-scrim { -webkit-app-region: no-drag; }
+main > section > .chat-head, main > section > .doc-head, main > .chat > .chat-head { padding-right: calc(24px + var(--controls)); }
+.item-panel .item-head, .dialog.dock > header { padding-right: calc(16px + var(--controls)); }
+
+.app { flex: 1; min-height: 0; display: grid; grid-template-columns: 310px minmax(0, 1fr); }
+aside { display: flex; flex-direction: column; min-height: 0; background: var(--bg); border-right: 1px solid var(--sel); }
+main { min-width: 0; min-height: 0; height: 100%; }
+
+.brand { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: calc(var(--titlebar-h) + 16px); padding: 8px var(--edge) 8px calc(var(--edge) - 6px); }
+.logo { flex: none; width: 18px; height: 18px; background: var(--accent); -webkit-mask: url(../assets/logo.png) center / contain no-repeat; mask: url(../assets/logo.png) center / contain no-repeat; }
+/* The environment's name, which opens a menu. */
+.env-menu { position: relative; min-width: 0; }
+.env-name { display: flex; align-items: center; gap: 8px; max-width: 100%; min-height: 30px; padding: 2px 6px; color: var(--hi); }
+.env-name:hover, .env-name[aria-expanded='true'] { background: var(--hover); }
+.env-name strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; }
+.env-name small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--faint); font-size: 12px; }
+.env-name .caret { color: var(--faint); font-size: 11px; }
+.menu { position: absolute; top: calc(100% + 4px); left: 0; z-index: 8; width: max-content; min-width: 100%; max-width: 340px; margin: 0; padding: 4px 0; list-style: none; background: var(--bg); border: 1px solid var(--rule); }
+.menu button, .menu a { display: block; width: 100%; padding: 7px 14px; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--fg); font-size: 12.5px; }
+.menu button:hover, .menu a:hover, .menu button:focus-visible { background: var(--sel); color: var(--hi); outline: none; }
+.menu-foot { margin-top: 4px; padding-top: 4px; border-top: 1px solid var(--sel); }
+.side-search { display: flex; align-items: center; gap: 8px; margin: 0 var(--edge) 10px; min-height: 28px; padding: 0 8px; background: var(--bg-dark); border: 1px solid var(--sel); color: var(--faint); font-size: 12px; }
+.side-search:hover { border-color: var(--rule); color: var(--fg); }
+.side-search small { margin-left: auto; color: var(--faint); font-size: 11px; }
+aside .listening-bar { margin: 0 var(--edge) 8px; }
+.people { display: flex; flex: none; align-items: center; gap: 6px; }
+.people-more { color: var(--faint); font-size: 12px; }
+.people-more:hover { color: var(--accent); }
+.side-more { display: block; margin: 8px var(--edge); font-size: 12px; }
+
+.avatar { position: relative; display: inline-grid; place-items: center; flex: none; background: var(--raised); font-weight: 700; font-size: 0.85em; }
+.avatar.amber { color: var(--amber); }
+.avatar.t1 { color: var(--chart-1); }
+.avatar.t2 { color: var(--chart-2); }
+.avatar.t3 { color: var(--chart-3); }
+.avatar.t4 { color: var(--chart-4); }
+.avatar.t5 { color: var(--chart-5); }
+.avatar.t6 { color: var(--chart-6); }
+.avatar.is-agent { background: none; outline: 1px solid currentColor; outline-offset: -1px; }
+.avatar .spark { position: absolute; right: -4px; top: -4px; width: 45%; height: 45%; color: var(--accent); }
+.person-mark { border-radius: 50%; background: var(--raised); outline: 1px solid var(--rule); outline-offset: -1px; }
+.person-mark.online { outline-color: currentColor; }
+.person-mark.away { opacity: 0.55; }
+.person-mark .status-dot { position: absolute; right: -1px; bottom: -1px; width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 2px var(--bg); }
+.person-mark.at-work .status-dot { background: var(--accent); animation: blink 1.2s steps(1) infinite; }
+
+/* Selected tabs carry the marker; nothing floats. */
+.now-link + .side-scroll, .side-pages { margin-top: 6px; }
+
+.side-scroll { flex: 1; min-height: 0; overflow-y: auto; padding: 2px 0 12px; }
+.side-empty { color: var(--faint); padding: 8px var(--edge); margin: 0; font-size: 12px; }
+.sync-error { padding: 6px var(--edge); font-size: 12px; color: var(--danger); border-top: 1px solid var(--sel); }
+
+.thread-row { display: block; padding: 6px var(--edge) 6px calc(var(--edge) - var(--marker)); border-left: var(--marker) solid transparent; }
+.thread-row:hover { background: var(--hover); }
+.thread-row.active { background: var(--sel); border-left-color: var(--accent); }
+.row-top { display: flex; align-items: baseline; gap: 7px; }
+.row-top strong { flex: 1; min-width: 0; font-weight: 500; color: var(--fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.thread-row.active .row-top strong { color: var(--hi); }
+.row-top time { flex: none; color: var(--faint); font-size: 12px; }
+.dot { flex: none; width: 6px; height: 6px; align-self: center; }
+.dot.question { background: var(--accent); }
+.dot.topic { background: var(--rule); }
+.dot.unread { width: 8px; height: 8px; background: var(--amber); }
+/* Its right end is left to the pin, which would otherwise sit over its last words. */
+.row-bottom { margin: 1px 16px 0 13px; font-size: 12px; color: var(--faint); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.row-bottom b { font-weight: 500; color: var(--muted); }
+.row-live { color: var(--accent); }
+.filter { display: block; margin: 8px var(--edge) 0; font-size: 12px; }
+
+.empty { display: grid; place-items: center; height: 100%; padding: 32px; color: var(--faint); text-align: center; }
+.home { max-width: 760px; margin: 0 auto; padding: 14vh 24px 40px; }
+.home h1 { margin: 0 0 6px; color: var(--hi); font-size: 20px; font-weight: 600; }
+.home p { margin: 0 0 24px; color: var(--muted); }
+.home-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
+.home-grid > * { display: block; padding: 14px; text-align: left; white-space: normal; border: 1px solid var(--sel); }
+.home-grid > *:hover { border-color: var(--accent); background: var(--hover); }
+.home-grid strong { display: block; margin-bottom: 4px; font-weight: 600; }
+.home-grid span { color: var(--muted); font-size: 12px; line-height: 1.5; }
+.home small { color: var(--faint); font-size: 12px; }
+
+@media (max-width: 760px) {
+  .app { grid-template-columns: 1fr; grid-template-rows: 42% minmax(0, 1fr); }
+  aside { border-right: 0; border-bottom: 1px solid var(--sel); }
+  .home-grid { grid-template-columns: 1fr; }
+  .home { padding-top: 32px; }
+}
+
+.now-link { display: flex; align-items: center; gap: 8px; min-height: 30px; padding: 3px var(--edge) 3px calc(var(--edge) - var(--marker)); border-left: var(--marker) solid transparent; }
+.now-link:hover { background: var(--hover); }
+.now-link.active { background: var(--sel); border-left-color: var(--accent); }
+.now-link strong { flex: 1; font-weight: 500; color: var(--fg); }
+.now-link.active strong { color: var(--hi); }
+.now-link small { color: var(--faint); font-size: 12px; }
+.now-link.warn small { color: var(--amber); }
+.pulse { flex: none; width: 7px; height: 7px; background: var(--green); animation: blink 1.6s steps(1) infinite; }
+.now-link .pulse { margin: 0 2.5px; }
+
+.update { margin: 0 var(--edge) 10px; min-height: 26px; padding: 2px 0; color: var(--amber); font-size: 12px; text-align: left; white-space: normal; }
+.update:hover:not(:disabled) { color: var(--hi); }
+.update:disabled { opacity: 1; }
+.update .loading { color: var(--muted); }
+
+.now { display: flex; flex-direction: column; height: 100%; min-height: 0; }
+.now-scroll { flex: 1; min-height: 0; overflow-y: auto; padding: 24px 24px 48px; }
+
+@media (max-width: 1100px) { .now-grid { grid-template-columns: minmax(0, 1fr); } }
+
+button.now-link { width: 100%; text-align: left; background: none; border-top: 0; border-right: 0; border-bottom: 0; cursor: pointer; font: inherit; color: var(--muted); }
+
+/* The list of threads. */
+.person-mark { width: 24px; height: 24px; font-size: 12px; cursor: default; }
+.person-mark { outline-offset: -1px; }
+.status-dot { position: absolute; right: -3px; bottom: -3px; width: 9px; height: 9px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 2px var(--bg); }
+/* The wheel rests at the top, then turns once: it speeds up for the first half of the turn and slows down for the second. */
+.person-mark.at-work::before { content: ''; position: absolute; inset: -5px; border-radius: 50%; border: 2px solid transparent; border-top-color: var(--amber); animation: wheel 3s cubic-bezier(0.65, 0, 0.35, 1) infinite; pointer-events: none; }
+@keyframes wheel { 0%, 60% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.st-offline { color: var(--faint); }
+.st-online { color: var(--green); }
+.st-working { color: var(--amber); }
+.avatar .spark.st-offline, .avatar .spark.st-online, .avatar .spark.st-working { color: inherit; }
+.avatar .spark path { fill: currentColor; stroke: currentColor; stroke-width: 1; stroke-linejoin: round; }
+.avatar .spark.st-offline { color: var(--faint); }
+.avatar .spark.st-offline path { fill: none; }
+.avatar .spark.st-online { color: var(--green); }
+.avatar .spark.st-working { color: var(--amber); }
+.person-mark::after { content: attr(data-says); position: absolute; top: calc(100% + 10px); right: -6px; z-index: 20; width: max-content; max-width: 260px; padding: 6px 10px; background: var(--raised); border: 1px solid var(--rule); color: var(--fg); font-size: 12px; font-weight: 400; line-height: 1.5; text-align: left; white-space: pre-line; opacity: 0; pointer-events: none; }
+.person-mark:hover::after, .person-mark:focus-visible::after { opacity: 1; }
+.side-tabs { display: flex; flex-wrap: wrap; gap: 2px 10px; padding: 0 var(--edge) 6px; }
+.side-tabs button { min-height: 24px; padding: 1px 0; background: none; border: 0; border-bottom: 1px solid transparent; color: var(--faint); font: inherit; font-size: 12px; cursor: pointer; }
+.side-tabs button:hover { color: var(--fg); }
+.side-tabs button.on { color: var(--hi); border-bottom-color: var(--accent); }
+.side-tabs small { margin-left: 4px; color: var(--faint); font-size: 11px; }
+.thread-wrap { position: relative; }
+.pin { position: absolute; right: 6px; bottom: 6px; display: grid; place-items: center; min-width: 24px; min-height: 24px; padding: 0 4px; background: none; border: 0; color: var(--faint); font-size: 11px; cursor: pointer; opacity: 0; }
+.thread-wrap:hover .pin, .pin:focus-visible, .pin.on { opacity: 1; }
+.pin.on { color: var(--accent); }
+.pin:hover { color: var(--hi); }

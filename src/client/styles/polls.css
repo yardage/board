@@ -1,0 +1,44 @@
+/* Polls: everyone sees who chose what. */
+.poll { margin: 8px 0; padding: 10px 12px; border: 1px solid var(--rule); background: var(--bg-dark); }
+.poll-question { display: block; color: var(--hi); }
+.poll > small { color: var(--faint); font-size: 12px; }
+.poll ul { margin: 8px 0 0; padding: 0; list-style: none; }
+.poll li { display: flex; flex-direction: column; gap: 2px; margin: 4px 0; }
+.poll label { display: grid; grid-template-columns: auto minmax(8ch, 1fr) minmax(60px, 160px) 10ch; gap: 8px; align-items: center; cursor: pointer; }
+.poll label.on .poll-option { color: var(--hi); }
+.poll-bar { height: 8px; background: var(--raised); }
+.poll-bar i { display: block; height: 100%; background: var(--accent); }
+.poll .num { color: var(--muted); font-size: 12px; text-align: right; font-variant-numeric: tabular-nums; }
+.poll-voters { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; padding-left: 21px; }
+.poll-voters .link { font-size: 12px; }
+.poll-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 8px; }
+.poll.ended .poll-bar i { background: var(--rule); }
+.poll.ended li.leads .poll-bar i { background: var(--accent); }
+.poll.ended li.leads .poll-option { color: var(--hi); }
+.poll-option .tag { margin-left: 6px; }
+.poll-form { display: grid; gap: 6px; margin: 0 0 8px; padding: 8px; border: 1px solid var(--rule); }
+.poll-form input, .poll-form textarea, .poll-form select { padding: 4px 8px; border: 1px solid var(--rule); background: var(--bg-dark); color: var(--fg); resize: vertical; font: inherit; }
+.poll-form-page { gap: 14px; padding: 16px 18px; background: var(--bg-dark); }
+.poll-new h2 { margin: 0 0 8px; color: var(--hi); font-size: 14px; font-weight: 600; }
+.poll-new .wait-note { margin: 0 0 16px; }
+.poll-field { display: flex; flex-direction: column; gap: 5px; }
+.poll-field > span { color: var(--muted); font-size: 12px; }
+.poll-field > span small { margin-left: 6px; color: var(--faint); }
+.poll-field.inline { flex-direction: row; align-items: center; gap: 8px; }
+.poll-field textarea, .poll-field input { width: 100%; box-sizing: border-box; }
+.poll-problem { color: var(--amber); }
+.poll-new-actions { display: flex; justify-content: flex-end; align-items: center; gap: 12px; }
+
+.poll-options { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 24px; }
+.poll-options select, .poll-options input { padding: 3px 8px; border: 1px solid var(--rule); background: var(--bg-dark); color: var(--fg); font: inherit; }
+.poll-options .check span { color: var(--muted); }
+.poll-detail h2 { margin: 0 0 8px; color: var(--hi); font-size: 14px; font-weight: 600; }
+.poll-detail .wait-meta { margin-bottom: 14px; }
+.poll-detail .wait-meta .ok { color: var(--green); }
+.poll-detail .poll { margin: 0; padding: 14px 16px; }
+.poll-register { margin-top: 16px; font-size: 12.5px; color: var(--muted); }
+.poll-register summary { cursor: pointer; min-height: 26px; }
+.wait-list > .new { margin: 6px var(--edge) 10px; }
+.wait-list > .new.on { background: var(--raised); color: var(--hi); outline: 1px solid var(--accent); outline-offset: -1px; }
+
+.poll.ended label { cursor: default; }

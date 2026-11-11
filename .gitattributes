@@ -1,0 +1,5 @@
+* text=auto eol=lf
+*.png binary
+*.ico binary
+# Messages and attached files are kept exactly as they were sent.
+threads/** -text

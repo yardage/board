@@ -1,0 +1,12 @@
+[Unit]
+Description=Write this machine's figures for the board, one minute after another
+Documentation=https://github.com/yardage/board/tree/main/host
+
+[Timer]
+# A run lasts about a minute, so the next one starts as soon as it ends.
+OnBootSec=1min
+OnUnitInactiveSec=1s
+AccuracySec=1s
+
+[Install]
+WantedBy=timers.target

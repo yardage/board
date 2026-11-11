@@ -1,0 +1,107 @@
+/* What every screen shares: the font, resets, sections, actions, loaders, fields, chips, prose, dialogs. */
+
+@import '@fontsource-variable/jetbrains-mono/index.css';
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+body { margin: 0; overflow: hidden; background: var(--bg); color: var(--fg); font: 13px/1.6 var(--font); font-variant-ligatures: none; -webkit-font-smoothing: antialiased; }
+button, input, textarea { font: inherit; color: inherit; }
+code, pre, kbd { font-family: var(--font); font-variant-ligatures: none; }
+button { cursor: pointer; background: none; border: 0; padding: 0; white-space: nowrap; }
+button:disabled { opacity: 0.4; cursor: default; }
+a { color: inherit; text-decoration: none; }
+strong, b { color: var(--hi); font-weight: 600; }
+:focus-visible { outline: 1px solid var(--accent); outline-offset: 1px; }
+::selection { background: var(--sel); color: var(--hi); }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: var(--sel); border: 3px solid var(--bg); }
+::-webkit-scrollbar-thumb:hover { background: var(--rule); }
+::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: transparent; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+.dim { color: var(--faint); }
+.muted { color: var(--muted); }
+
+/* Lowercase chrome: words people click and sections, never what people wrote. */
+.new, .title-search, .page-tabs a, .now-link strong, .now-link small, .settings-link, .kind, .ghost, .link, .send, .tool, .chip, .hint,
+.side-tabs button, .syn h3, .syn-head strong, .syn-lane-name, .wait-detail h3, .set-label, .inf-brief h4, .inf-panel h4, .folder.top, .tag, .set-state, .radio, .lang, .set-colours label { text-transform: lowercase; }
+
+/* ── section ────── */
+.syn h3, .inf-brief h4, .inf-panel h4, .viz-section h4 { display: flex; align-items: center; gap: 12px; color: var(--hi); font-size: 13px; font-weight: 600; letter-spacing: 0; }
+.syn h3::before, .inf-brief h4::before, .inf-panel h4::before, .viz-section h4::before { content: ''; flex: none; width: 2ch; border-bottom: 1px solid var(--rule); }
+.syn h3::after, .inf-brief h4::after, .inf-panel h4::after, .viz-section h4::after { content: ''; flex: 1; border-bottom: 1px solid var(--sel); }
+.inf-panel h4 span, .viz-section h4 span { order: 2; }
+
+/* [ action ] */
+.ghost, .link { display: inline-block; flex: none; color: var(--accent); font-weight: 400; white-space: nowrap; }
+.ghost { flex: none; }
+.ghost::before, .link::before { content: '[ '; color: var(--rule); }
+.ghost::after, .link::after { content: ' ]'; color: var(--rule); }
+.ghost:hover:not(:disabled), .link:hover:not(:disabled) { color: var(--hi); }
+.ghost:hover:not(:disabled)::before, .ghost:hover:not(:disabled)::after, .link:hover:not(:disabled)::before, .link:hover:not(:disabled)::after { color: var(--accent); }
+.ghost:disabled { opacity: 0.4; cursor: default; }
+
+/* Block bar, spinner. */
+.blocks { position: relative; display: inline-block; flex: none; height: 1em; overflow: hidden; vertical-align: -0.15em; background-image: radial-gradient(circle, var(--rule) 0.75px, transparent 0.9px); background-size: 3px 3px; }
+.blocks > .fill { position: absolute; inset: 0 auto 0 0; background: var(--accent); transition: width 0.3s ease; }
+.blocks.running > .fill { width: 22%; animation: travel 1.3s ease-in-out infinite alternate; }
+@keyframes travel { from { left: 0; } to { left: 78%; } }
+.spin { display: inline-block; width: 1ch; color: var(--accent); }
+.loading { display: inline-flex; align-items: center; gap: 12px; color: var(--muted); }
+.inf-body > .loading, .rep-page .inf-body > .loading, .wait-page > .loading, .empty > .loading { display: flex; justify-content: center; padding: 48px 0; }
+@keyframes blink { 50% { opacity: 0.3; } }
+
+/* Filled like speak's main key. */
+.new, .send { background: var(--accent); color: var(--accent-fg); font-weight: 600; }
+/* Every field says it has the focus the same way, without a second frame around the first. */
+input:not([type='checkbox']):not([type='radio']):not([type='color']):focus-visible, textarea:focus-visible, select:focus-visible { outline: none; border-color: var(--accent); }
+.palette-field:focus-within { border-bottom-color: var(--accent); }
+.new { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 0 var(--edge) 12px; min-height: 30px; }
+.new:hover, .send:hover:not(:disabled) { background: var(--hi); }
+.new span { font-weight: 700; }
+.send { min-height: 26px; padding: 0 12px; }
+
+.inline-error { margin: 8px 0; padding: 6px 10px; border-left: var(--marker) solid var(--danger); color: var(--danger); font-size: 12.5px; }
+
+.chip { display: inline-flex; align-items: center; gap: 6px; min-height: 24px; color: var(--muted); font-size: 12px; }
+.chip::before { content: '[ ]'; color: var(--rule); }
+.chip.on { color: var(--hi); }
+.chip.on::before { content: '[x]'; color: var(--accent); }
+.chip:hover { color: var(--hi); }
+.chip .avatar { display: none; }
+.spacer { flex: 1; }
+.hint { color: var(--faint); font-size: 12px; }
+
+.prose { overflow-wrap: anywhere; }
+.prose > :first-child { margin-top: 0; }
+.prose > :last-child { margin-bottom: 0; }
+.prose p, .prose ul, .prose ol { margin: 0 0 0.7em; }
+.prose ul, .prose ol { padding-left: 1.6em; }
+.prose li { margin-bottom: 0.25em; }
+.prose a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+.prose h1, .prose h2, .prose h3, .prose h4 { color: var(--hi); line-height: 1.35; margin: 1.5em 0 0.5em; font-weight: 600; }
+.prose h1 { font-size: 1.35em; }
+.prose h2 { font-size: 1.15em; padding-bottom: 4px; border-bottom: 1px solid var(--sel); }
+.prose h3 { font-size: 1em; color: var(--accent); }
+.prose code { padding: 0 4px; background: var(--sel); color: var(--hi); font-size: 0.95em; }
+.prose pre { padding: 10px 12px; overflow-x: auto; background: var(--bg-dark); border: 1px solid var(--sel); }
+.prose pre code { padding: 0; background: none; color: var(--fg); }
+.prose blockquote { margin: 0 0 0.7em; padding-left: 12px; border-left: var(--marker) solid var(--sel); color: var(--muted); }
+.prose hr { border: 0; border-top: 1px solid var(--sel); margin: 1.5em 0; }
+.table-scroll { overflow-x: auto; margin: 0 0 0.9em; }
+.prose table { border-collapse: collapse; font-size: 0.95em; width: 100%; }
+.prose th, .prose td { padding: 4px 12px 4px 0; text-align: left; border-bottom: 1px solid var(--sel); vertical-align: top; }
+.prose th { font-weight: 500; color: var(--faint); }
+.prose img { max-width: 100%; }
+
+.overlay { position: fixed; inset: 0; z-index: 10; display: grid; place-items: start center; padding: 10vh 16px 16px; background: var(--scrim); }
+.dialog { width: min(680px, 100%); padding: 14px 0 0; overflow: hidden; background: var(--bg); border: 1px solid var(--accent); }
+.dialog header { display: flex; align-items: center; justify-content: space-between; padding: 0 16px 10px; }
+.dialog h2 { margin: 0; color: var(--hi); font-size: 14px; font-weight: 600; }
+/* A dialog's one line of text: never a box or a checkbox, and never the settings', which have their own (`:where` keeps the weight it had). */
+.dialog:where(:not(.settings-dialog)) input:where(:not([type='checkbox'], [type='radio'])) { display: block; width: calc(100% - 32px); margin: 0 16px 2px; padding: 4px 0; background: none; border: 0; border-bottom: 1px solid var(--rule); outline: none; color: var(--hi); font-weight: 600; }
+.dialog:where(:not(.settings-dialog)) input:where(:not([type='checkbox'], [type='radio'])):focus { border-bottom-color: var(--accent); }
+.dialog:where(:not(.settings-dialog)) input::placeholder { color: var(--faint); font-weight: 400; }
+.dialog .composer { padding: 10px 16px 14px; border-top: 0; }
+
+.check { display: inline-flex; gap: 6px; align-items: center; color: var(--muted); font-size: 12.5px; }

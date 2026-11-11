@@ -1,0 +1,202 @@
+/* Settings: the window, its rows, models, the environment's configuration. */
+
+/* Settings, over the app, as a window of their own: the parts on the left, one at a time on the right. */
+.settings-overlay { place-items: center; padding: 24px; }
+.settings-dialog { position: relative; display: flex; width: min(1080px, 100%); height: min(760px, 100%); padding: 0; border-color: var(--rule); }.settings-dialog .settings { flex: 1; display: flex; flex-direction: row; min-width: 0; }
+.set-nav { flex: none; display: flex; flex-direction: column; width: 220px; padding: 10px 0; overflow-y: auto; border-right: 1px solid var(--sel); background: var(--bg-dark); }
+.set-nav h2 { margin: 6px var(--edge) 10px; color: var(--hi); font-size: 14px; font-weight: 600; }
+.set-nav-group + .set-nav-group { margin-top: 12px; }
+.set-nav-title { display: block; margin: 4px var(--edge) 2px; color: var(--faint); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
+.set-pane { flex: 1; display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+/* Room for "close", which sits over the head's right end. */
+.set-pane .chat-head { -webkit-app-region: no-drag; padding-right: calc(24px + 12ch + var(--controls)); }
+.dialog-close { position: absolute; top: 14px; right: 16px; z-index: 1; }
+@media (max-width: 760px) { .settings-dialog .settings { flex-direction: column; } .set-nav { width: auto; flex-direction: row; flex-wrap: wrap; border-right: 0; border-bottom: 1px solid var(--sel); } .set-nav h2 { display: none; } }
+/* Settings, as a label, a value and what can be done. */
+.settings-link { display: flex; align-items: center; gap: 8px; min-height: 30px; padding: 3px var(--edge) 3px calc(var(--edge) - var(--marker)); border-top: 1px solid var(--sel); border-left: var(--marker) solid transparent; color: var(--muted); font-size: 12px; }
+.settings-link:hover { background: var(--hover); color: var(--hi); }
+.settings-link.active { color: var(--hi); background: var(--sel); border-left-color: var(--accent); }
+.settings-link small { margin-left: auto; color: var(--faint); font-size: 12px; }
+/* The rows hang their hover colour in the margin, so that what they say lines up with the page's title. */
+.set-body { max-width: 880px; margin-left: -12px; }
+.set-body > .inline-error { margin-left: 12px; }
+.set-row { display: grid; grid-template-columns: 24ch minmax(0, 1fr) auto; column-gap: 16px; align-items: start; min-height: 30px; padding: 5px 12px; }
+.set-row > .set-label { padding-top: 3px; }
+.set-hint { margin: 3px 0 0; color: var(--muted); font-size: 12.5px; }
+.set-after { margin-left: 8px; }
+.set-actions .set-ok, .set-actions .set-bad, .set-actions .dim { padding-top: 3px; font-size: 12.5px; }
+.set-row:hover { background: var(--hover); }
+.set-label { color: var(--fg); }
+.set-value { min-width: 0; color: var(--hi); }
+.set-value p { margin: 2px 0 0; color: var(--muted); font-size: 12.5px; }
+.set-value code { font-size: 12px; }
+.set-new { color: var(--accent); }
+.set-ok { color: var(--green); }
+.set-bad { color: var(--danger); }
+.set-actions { display: flex; flex: none; gap: 8px; }
+.set-choices { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+.set-colours { display: flex; flex-wrap: wrap; gap: 6px 20px; align-items: center; }
+.set-colours label { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 12.5px; }
+.set-colours input[type='color'] { width: 28px; height: 20px; padding: 0; background: none; border: 1px solid var(--rule); cursor: pointer; }
+.set-colours input[type='color']:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
+.radio, .switch { display: inline-flex; align-items: center; min-height: 24px; color: var(--muted); text-transform: none; }
+.switch[aria-checked='true'] { color: var(--hi); }
+.switch:hover:not(:disabled) { color: var(--hi); }
+.radio[aria-checked='true'] { color: var(--accent); }
+.radio:hover:not(:disabled) { color: var(--hi); }
+.set-state { flex: none; font-size: 12.5px; color: var(--muted); }
+.set-state.ok { color: var(--green); }
+.set-state.bad { color: var(--danger); }
+.set-field { display: flex; align-items: baseline; gap: 10px; margin-top: 4px; }
+.set-field input { flex: 1; min-width: 0; padding: 2px 0; background: none; border: 0; border-bottom: 1px solid var(--rule); outline: none; color: var(--hi); font-size: 12.5px; }
+.set-field input:focus { border-bottom-color: var(--accent); }
+.set-field input::placeholder { color: var(--faint); }
+
+.set-note { margin: 0 0 8px; padding: 0 12px; color: var(--muted); font-size: 12.5px; }
+
+/* AI, after speak: the program to pick, then the one picked, its state, its account folder and where it is. */
+.ai-part-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin: 24px 0 8px; padding: 0 12px; }
+.ai-part-head .set-title { margin: 0; padding: 0; }
+.ai-refresh { font-size: 12.5px; }
+.ai-programs { display: grid; gap: 2px; }
+.ai-program { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: 2px 16px; width: 100%; padding: 6px 12px 7px calc(12px - var(--marker)); border-left: var(--marker) solid transparent; color: var(--fg); text-align: left; white-space: normal; }
+.ai-program:hover:not(:disabled) { background: var(--hover); }
+.ai-program[aria-checked='true'] { background: var(--sel); border-left-color: var(--accent); color: var(--hi); }
+.ai-program:disabled { opacity: 1; cursor: default; }
+.ai-radio { color: var(--muted); }
+.ai-program[aria-checked='true'] .ai-radio { color: var(--accent); }
+.ai-program-tag { color: var(--faint); font-size: 12.5px; text-transform: lowercase; }
+.ai-program-reads { grid-column: 1 / -1; padding-left: 4ch; color: var(--muted); font-size: 12.5px; }
+/* The dialog's own field rule would indent it and set it bold. */
+.ai-path > .set-input { display: block; margin: 0; font-weight: 400; }
+.ai-path > .set-ok, .ai-path > .dim { flex: none; font-size: 12.5px; }
+
+/* The models: a row per use, its name and what it is for, then two lists of one width, in their columns. */
+.ai-head, .ai-line { display: grid; grid-template-columns: minmax(0, 1fr) 18ch 18ch 11ch; column-gap: 12px; align-items: center; padding: 5px 12px; }
+.ai-head { padding-top: 0; border-bottom: 1px solid var(--sel); color: var(--faint); font-size: 12px; text-transform: lowercase; }
+.ai-line { min-height: 42px; border-bottom: 1px solid var(--raised); }
+.ai-line:last-child { border-bottom: 0; }
+.ai-line:hover { background: var(--hover); }
+.ai-use { display: flex; flex-direction: column; min-width: 0; }
+.ai-use-name { color: var(--fg); }
+.ai-line.own .ai-use-name { color: var(--hi); }
+.ai-saved { animation: appear 0.2s ease-out; }
+.ai-use-hint { color: var(--muted); font-size: 12.5px; line-height: 1.45; }
+.ai-pick { display: flex; min-width: 0; }
+.ai-pick > select.set-input { flex: 1; width: 100%; min-width: 0; color: var(--muted); text-overflow: ellipsis; cursor: pointer; }
+.ai-pick > select.set-input:hover:not(:disabled) { border-color: var(--muted); }
+.ai-pick.chosen > select.set-input { color: var(--accent); }
+.ai-pick > select.set-input:disabled { color: var(--faint); cursor: default; }
+.ai-pick option { background: var(--raised); color: var(--fg); }
+.ai-after { display: flex; justify-content: flex-end; min-width: 0; font-size: 12.5px; }
+.ai-error { grid-column: 1 / -1; margin: 2px 0 0; font-size: 12.5px; }
+
+/* The same rows under a thread, in the panel the composer's "model" opens. */
+.ai-anchor { position: relative; display: inline-flex; }
+.ai-popover { position: absolute; bottom: calc(100% + 8px); left: 0; z-index: 6; width: min(680px, 92vw); padding: 12px 14px; background: var(--bg); border: 1px solid var(--rule); }
+.ai-popover h4 { margin: 0 0 10px; color: var(--hi); font-size: 12.5px; font-weight: 600; }
+.ai-popover .ai-head, .ai-popover .ai-line { grid-template-columns: minmax(0, 1fr) 22ch 22ch 11ch; padding: 4px 0; }
+.ai-popover .ai-line { min-height: 36px; }
+.ai-popover .ai-line:hover { background: none; }
+.ai-note { margin: 10px 0 0; color: var(--faint); font-size: 12.5px; }
+/* In a text box's row, the panel opens over the whole box, as the members after an "@" do, and never past the window's edge. */
+.composer .ai-anchor { position: static; }
+.composer .ai-popover { left: max(24px, calc((100% - 860px) / 2)); bottom: calc(100% - 10px); width: min(680px, calc(100% - 48px)); max-height: 60vh; overflow-y: auto; }
+.dialog .composer .ai-popover { left: 16px; width: calc(100% - 32px); }
+/* Too narrow for its columns, as beside a docked new thread, a use's name goes above its two lists instead of under them. */
+.ai-popover { container-type: inline-size; }
+@container (max-width: 560px) {
+  .ai-popover .ai-head { display: none; }
+  .ai-popover .ai-line { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); row-gap: 4px; padding: 6px 0; }
+  .ai-popover .ai-use { grid-column: 1 / -1; }
+}
+
+/* The environment's configuration. */
+.set-title { margin: 24px 0 8px; padding: 0 12px; color: var(--hi); font-size: 13px; font-weight: 600; }
+.set-people { display: flex; flex-wrap: wrap; gap: 10px; margin: 4px 0; }
+.set-people-box { display: flex; flex-direction: column; gap: 4px; }
+.set-people-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; }
+.set-people-tools input { padding: 3px 8px; border: 1px solid var(--rule); background: var(--bg-dark); color: var(--fg); }
+.set-members { display: block; margin-top: 4px; color: var(--fg); }
+
+.set-group-block { margin-top: 8px; }
+
+/* The environment's parts share one save bar: under the part that scrolls, part of the layout, never over the content. */
+.set-scroll { padding-bottom: 32px; }
+.now-link.changed small { color: var(--accent); }
+.set-savebar { flex: none; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; min-height: 48px; padding: 8px 24px; border-top: 1px solid var(--sel); background: var(--bg-dark); }
+.set-savebar-status { flex: 1 1 260px; min-width: 0; font-size: 12.5px; overflow-wrap: anywhere; }
+.set-warn { color: var(--amber); }
+.set-readonly { margin: 0 0 16px 12px; padding: 6px 12px; border-left: var(--marker) solid var(--rule); background: var(--bg-dark); color: var(--muted); font-size: 12.5px; }
+.set-alert { display: flex; flex-direction: column; gap: 2px; margin: 0 0 16px 12px; padding: 8px 12px; border-left: var(--marker) solid var(--danger); background: var(--bg-dark); color: var(--fg); font-size: 12.5px; overflow-wrap: anywhere; }
+.set-alert strong { color: var(--danger); font-weight: 600; }
+.set-body > section.set-group-block:first-of-type > .set-title { margin-top: 4px; }
+
+/* One height and a few widths for every box, so that fields line up from part to part. */
+.set-box { display: inline-flex; align-items: center; gap: 8px; max-width: 100%; vertical-align: top; }
+.set-box.short { width: 16ch; }
+.set-box.medium { width: 34ch; }
+.set-box.long { width: 52ch; }
+.set-box.full { width: 100%; }
+.set-input { flex: 1; width: 100%; min-width: 0; height: 28px; padding: 0 8px; background: var(--bg-dark); border: 1px solid var(--rule); color: var(--hi); font: inherit; font-size: 12.5px; }
+select.set-input { flex: none; width: auto; max-width: 100%; min-width: 16ch; padding: 0 4px; }
+.set-input::placeholder { color: var(--faint); }
+.set-input.wrong { border-color: var(--amber); }
+.set-text { color: var(--hi); overflow-wrap: anywhere; }
+a.set-text:hover { color: var(--accent); }
+.set-problem { display: block; margin-top: 3px; color: var(--amber); font-size: 12px; }
+.set-row:has(.set-input) > .set-label { padding-top: 4px; }
+.set-row:has(.set-input) > .set-actions { padding-top: 2px; }
+
+/* A list of the configuration: a table, what to do when it is empty, and "add" under its last row. */
+.set-list { margin: 4px 0 6px; padding: 0 12px; }
+.set-empty { margin: 0; padding: 10px 12px; border: 1px dashed var(--rule); color: var(--muted); font-size: 12.5px; }
+.set-list-add { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin-top: 8px; }
+.set-body > .set-list-add { padding: 0 12px; }
+.set-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.set-table th { padding: 4px 10px 4px 0; text-align: left; vertical-align: bottom; font-size: 12px; font-weight: 500; color: var(--faint); border-bottom: 1px solid var(--sel); white-space: nowrap; text-transform: lowercase; }
+.set-table td { padding: 6px 10px 6px 0; vertical-align: top; border-bottom: 1px solid var(--sel); }
+.set-table tbody tr:hover { background: var(--hover); }
+.set-table .tick { width: 1%; padding-left: 4px; padding-right: 4px; text-align: center; }
+.set-table .end { width: 1%; padding-right: 0; text-align: right; white-space: nowrap; }
+.set-table .wide { width: 60%; }
+.set-table td > .set-text { display: inline-flex; align-items: center; min-height: 28px; }
+.set-tick { display: inline-flex; align-items: center; justify-content: center; min-width: 4ch; min-height: 28px; color: var(--faint); font-size: 12.5px; }
+.set-tick.on { color: var(--accent); }
+span.set-tick.on { color: var(--fg); }
+button.set-tick:hover { color: var(--hi); }
+.set-remove { line-height: 28px; font-size: 12px; }
+
+/* What the board may do in each repository: a column per permission, under what it is done to. */
+.set-grid-wrap { overflow-x: auto; }
+.set-grid th.group { padding: 4px 4px 0; text-align: center; color: var(--muted); border-bottom: 0; border-left: 1px solid var(--sel); }
+.set-grid .first { border-left: 1px solid var(--sel); }
+.set-grid td.name { min-width: 20ch; }
+.set-grid .set-input { min-width: 16ch; }
+.set-row-note { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 12px; margin-top: 2px; font-size: 12px; }
+.set-row-note .set-remove, .set-row-note .link { line-height: 22px; font-size: 12px; }
+.set-badge { display: inline-flex; align-items: center; min-height: 22px; padding: 0 6px; border: 1px solid var(--sel); color: var(--accent); font-size: 11.5px; text-transform: lowercase; }
+.set-legend { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 3px 16px; margin: 14px 0 0; padding: 0 12px; color: var(--muted); font-size: 12px; }
+.set-legend dt { color: var(--fg); text-transform: lowercase; }
+.set-legend dd { margin: 0; }
+
+/* A new alias, checked before it joins the list. */
+.set-add-row { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 8px 12px; margin: 10px 12px 0; }
+.set-add-row > span:not(.set-arrow) { display: flex; flex-direction: column; }
+.set-add-row select.set-input { width: 26ch; }
+.set-add-row .check, .set-add-row button, .set-arrow { min-height: 28px; }
+.set-arrow { display: inline-flex; align-items: center; color: var(--faint); }
+
+/* Asked before unsaved changes are lost: over the settings, "close" included, in an opaque box. */
+.set-ask-scrim { position: absolute; inset: 0; z-index: 3; display: grid; place-items: center; padding: 24px; background: var(--scrim); }
+.set-ask { width: min(480px, 100%); padding: 16px 18px; background: var(--bg); border: 1px solid var(--accent); }
+.set-ask h3 { margin: 0 0 6px; color: var(--hi); font-size: 13px; font-weight: 600; }
+.set-ask p { margin: 0 0 8px; color: var(--muted); font-size: 12.5px; overflow-wrap: anywhere; }
+.set-ask-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 8px 14px; margin-top: 14px; }
+.link.danger { color: var(--danger); }
+
+/* About: a heading with what acts on all its rows at its end, a folder, the command line. */
+.about-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding-right: 12px; }
+.about-tail { display: flex; flex: none; gap: 8px; }
+.about-path { color: var(--fg); overflow-wrap: anywhere; }
+.about-command { color: var(--hi); white-space: pre-wrap; overflow-wrap: anywhere; }

@@ -1,0 +1,16 @@
+/* Search, from anywhere. */
+
+.palette-back { position: fixed; inset: 0; z-index: 50; display: flex; justify-content: center; align-items: flex-start; padding-top: 12vh; background: var(--scrim); }
+.palette { display: flex; flex-direction: column; width: min(720px, 90vw); max-height: 66vh; background: var(--bg-dark); border: 1px solid var(--accent); }
+.palette-field { display: flex; align-items: center; gap: 10px; padding: 0 12px; border-bottom: 1px solid var(--rule); }
+.palette-field input { flex: 1; min-width: 0; padding: 10px 0; background: none; border: 0; outline: 0; color: var(--hi); font: inherit; }
+.palette-field input::placeholder { color: var(--faint); }
+.palette ul { flex: 1; min-height: 0; list-style: none; margin: 0; padding: 4px 0; overflow-y: auto; }
+.palette li[role='option'] { display: flex; align-items: baseline; gap: 10px; padding: 5px 12px; cursor: pointer; }
+.palette li.on { background: var(--sel); }
+.palette-kind { flex: none; width: 56px; color: var(--faint); font-size: 12px; }
+.palette-text { flex: 1; min-width: 0; }
+.palette-text strong { display: block; font-weight: 500; color: var(--fg); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.palette li.on .palette-text strong { color: var(--hi); }
+.palette-text small { display: block; color: var(--faint); font-size: 12px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.palette-none { padding: 10px 12px; color: var(--faint); }

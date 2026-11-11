@@ -1,0 +1,25 @@
+/* Knowledge: the tree of documents and a document's page. */
+
+.tree { list-style: none; margin: 0; padding: 0; }
+.tree a, .folder { display: flex; align-items: center; gap: 7px; width: 100%; min-height: 26px; padding: 2px 8px; text-align: left; white-space: normal; font-size: 12.5px; color: var(--muted); border-left: var(--marker) solid transparent; }
+.tree a svg { flex: none; opacity: 0.6; }
+.tree a:hover, .folder:hover { background: var(--hover); color: var(--hi); }
+.tree a.active { background: var(--sel); border-left-color: var(--accent); color: var(--hi); }
+.folder svg { flex: none; transition: transform 0.12s; }
+.folder svg.open { transform: rotate(90deg); }
+.folder.top { margin-top: 8px; color: var(--hi); font-weight: 600; }
+
+.crumbs { display: flex; flex-wrap: wrap; min-width: 0; color: var(--faint); font-size: 12.5px; }
+.crumbs span:not(:last-child)::after { content: '/'; margin: 0 6px; color: var(--rule); }
+.crumbs .here { color: var(--hi); font-weight: 600; }
+.doc-actions { display: flex; flex: 0 1 auto; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 4px 18px; min-width: 0; }
+.lang { display: flex; gap: 2px; color: var(--faint); }
+.lang button { min-height: 24px; padding: 0 6px; color: var(--faint); }
+.lang button:hover:not(:disabled) { color: var(--hi); }
+.lang button.on { background: var(--sel); color: var(--hi); }
+.doc-note { display: flex; align-items: center; gap: 12px; padding: 6px 24px; border-bottom: 1px solid var(--sel); color: var(--muted); font-size: 12px; }
+.doc-note .bad { color: var(--danger); }
+.doc-scroll { flex: 1; min-height: 0; overflow-y: auto; }
+.doc-prose { max-width: 860px; margin: 0 auto; padding: 24px 24px 64px; font-size: 13.5px; line-height: 1.65; }
+.doc iframe { flex: 1; width: 100%; border: 0; background: var(--bg); }
+.doc-text { margin: 0; padding: 16px 24px; font: 12.5px/1.55 var(--font); white-space: pre; tab-size: 2; }
