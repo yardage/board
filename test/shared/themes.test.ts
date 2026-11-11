@@ -36,7 +36,7 @@ describe('the themes', () => {
   })
 
   it('gives the themes made of three colours the same window, report page and roles', () => {
-    for (const theme of ['default', 'custom'] as const) {
+    for (const theme of ['default', 'vercel', 'custom'] as const) {
       const colours = coloursOf(theme, null)
       const roles = derive(colours)
       const report = roles && Object.fromEntries([...reportTheme(theme, null).replace('}body', ';}body').matchAll(/(--[\w-]+):\s*([^;]+);/g)].map((m) => [m[1], m[2].trim()]))
@@ -73,6 +73,16 @@ describe('the themes', () => {
       assert.ok(contrast(roles['--muted'], roles['--bg']) >= 4.5, 'muted text stays readable')
       assert.ok(contrast(roles['--faint'], roles['--bg']) >= 3, 'faint text stays visible')
     }
+  })
+
+  it('makes Vercel pure black, with white text and white accents', () => {
+    const roles = derive(PRESET_COLOURS.vercel)
+    assert.equal(roles['--bg'], '#000000')
+    assert.equal(roles['--hi'], '#ffffff')
+    assert.equal(roles['--accent'], '#ffffff')
+    assert.equal(roles['--accent-fg'], '#000000', 'what sits on an accent stays readable')
+    assert.equal(windowColours('vercel', null).background, '#000000')
+    assert.equal(themeOf('vercel'), 'vercel')
   })
 
   it('reads the names of themes from before as the ones that replace them', () => {
@@ -112,6 +122,8 @@ describe('the themes', () => {
       assert.equal((await choose('omarchy')).status, 200)
       assert.equal(running.theme(), 'omarchy')
       assert.equal(running.themeColours(), null)
+      assert.equal((await choose('vercel')).status, 200)
+      assert.equal(running.theme(), 'vercel')
       assert.equal((await choose('default')).status, 200)
       assert.equal(running.theme(), 'default')
       const send = (body: unknown) => fetch(`${running.url}/api/settings/theme`, { method: 'POST', headers: { 'content-type': 'application/json', 'x-board': '1' }, body: JSON.stringify(body) })

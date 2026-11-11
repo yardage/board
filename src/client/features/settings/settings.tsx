@@ -182,6 +182,7 @@ function GeneralPart({ data, textSize, onChange }: { data: Settings; textSize: T
           onPick={(code) => void theme.save(code)}
           options={[
             ['default', t('Défaut')],
+            ['vercel', 'Vercel'],
             ['omarchy', 'Omarchy'],
             ['custom', t('Personnalisé')],
           ]}

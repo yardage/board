@@ -1,12 +1,12 @@
 /**
  * How the app looks, chosen in the settings of each computer. A theme is a set of values for the roles at the top of
- * `src/client/styles`. `default` and `custom`, whose three colours the person picks, are worked out from three colours by
+ * `src/client/styles`. `default` and `vercel`, pure black with white text and accents, and `custom`, whose three colours the person picks, are worked out from three colours by
  * `derive`, so a person never has to know the roles; the default's are also written in `tokens.css`, so the
  * first drawing has them. `omarchy`, a Tokyo Night palette, is tuned by hand there, on `html[data-theme]`. The window's own frame, a report's sandboxed page and a ramp computed in the code can't read the stylesheet, so
  * what they need is here.
  */
 
-export const THEMES = ['default', 'omarchy', 'custom'] as const
+export const THEMES = ['default', 'vercel', 'omarchy', 'custom'] as const
 export type Theme = (typeof THEMES)[number]
 export const isTheme = (value: unknown): value is Theme => (THEMES as readonly unknown[]).includes(value)
 
@@ -30,6 +30,7 @@ export interface ThemeColours {
 
 export const PRESET_COLOURS: Record<Exclude<Theme, 'custom'>, ThemeColours> = {
   default: { bg: '#000005', text: '#f5f5f5', accent: '#00ffbf' },
+  vercel: { bg: '#000000', text: '#ffffff', accent: '#ffffff' },
   omarchy: { bg: '#1a1b26', text: '#c0caf5', accent: '#7aa2f7' },
 }
 
