@@ -1,7 +1,7 @@
 {
   "name": "board",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "description": "Where a team and their agents think together, in an environment on GitHub. No product code goes through it.",
   "license": "MIT",
